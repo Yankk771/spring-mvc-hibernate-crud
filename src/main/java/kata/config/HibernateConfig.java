@@ -6,15 +6,22 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+@PropertySource("classpath:db.properties")
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {
+
+    @Autowired
+    private Environment environment;
 
     @Bean
     public DataSource dataSource() {
@@ -22,14 +29,17 @@ public class HibernateConfig {
         DriverManagerDataSource dataSource =
                 new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setDriverClassName(
+                environment.getProperty("db.driver"));
 
         dataSource.setUrl(
-                "jdbc:mysql://localhost:3306/kata_crud");
+                environment.getProperty("db.url"));
 
-        dataSource.setUsername("root");
+        dataSource.setUsername(
+                environment.getProperty("db.username"));
 
-        dataSource.setPassword("1234");
+        dataSource.setPassword(
+                environment.getProperty("db.password"));
 
         return dataSource;
     }
