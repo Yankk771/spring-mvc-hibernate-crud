@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -62,20 +63,28 @@
 
 <h2>Add User</h2>
 
-<form action="/add" method="post">
+<form:form action="/add" method="post" modelAttribute="user">
 
     Name:
-    <input type="text" name="name">
+    <form:input path="name"/>
+    <form:errors path="name" cssStyle="color:red"/>
+
+    <br><br>
 
     Last Name:
-    <input type="text" name="lastName">
+    <form:input path="lastName"/>
+    <form:errors path="lastName" cssStyle="color:red"/>
+
+    <br><br>
 
     Age:
-    <input type="number" name="age">
+    <form:input path="age"/>
+    <form:errors path="age" cssStyle="color:red"/>
+
+    <br><br>
 
     <input type="submit" value="Add User">
 
-</form>
-
+</form:form>
 </body>
 </html>

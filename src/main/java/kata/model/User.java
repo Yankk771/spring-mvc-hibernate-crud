@@ -1,6 +1,9 @@
 package kata.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -10,10 +13,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name must not be empty")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Name must contain only letters")
     private String name;
 
+    @NotBlank(message = "Last name must not be empty")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Last name must contain only letters")
     private String lastName;
 
+    @Min(value = 1, message = "Age must be greater than 0")
     private int age;
 
     public User() {

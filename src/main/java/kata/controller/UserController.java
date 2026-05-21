@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import javax.validation.Valid;
+import kata.model.User;
 
 @Controller
 public class UserController {
@@ -24,16 +27,28 @@ public class UserController {
                 "users",
                 userService.getAllUsers());
 
+        model.addAttribute(
+                "user",
+                new User());
+
         return "users";
     }
+
     @PostMapping("/add")
     public String addUser(
-            @RequestParam("name") String name,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("age") int age
+            @Valid User user,
+            BindingResult bindingResult,
+            Model model
     ) {
 
-        User user = new User(name, lastName, age);
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute(
+                    "users",
+                    userService.getAllUsers());
+
+            return "users";
+        }
 
         userService.saveUser(user);
 
@@ -62,15 +77,13 @@ public class UserController {
     }
     @PostMapping("/update")
     public String updateUser(
-            @RequestParam("id") Long id,
-            @RequestParam("name") String name,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("age") int age
+            @Valid User user,
+            BindingResult bindingResult
     ) {
 
-        User user = new User(name, lastName, age);
-
-        user.setId(id);
+        if (bindingResult.hasErrors()) {
+            return "edit";
+        }
 
         userService.updateUser(user);
 

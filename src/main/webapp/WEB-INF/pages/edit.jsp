@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -8,31 +9,31 @@
 
 <h2>Edit User</h2>
 
-<form action="/update" method="post">
+<form:form action="/update" method="post" modelAttribute="user">
 
-  <input type="hidden"
-         name="id"
-         value="${user.id}">
+<form:input type="hidden" path="id"/>
 
-  Name:
-  <input type="text"
-         name="name"
-         value="${user.name}">
+Name:
+<form:input path="name"/>
+<form:errors path="name" cssStyle="color:red"/>
 
-  Last Name:
-  <input type="text"
-         name="lastName"
-         value="${user.lastName}">
+<br><br>
 
-  Age:
-  <input type="number"
-         name="age"
-         value="${user.age}">
+Last Name:
+<form:input path="lastName"/>
+<form:errors path="lastName" cssStyle="color:red"/>
 
-  <input type="submit"
-         value="Update">
+<br><br>
 
-</form>
+Age:
+<form:input path="age"/>
+<form:errors path="age" cssStyle="color:red"/>
+
+<br><br>
+
+<input type="submit" value="Update">
+
+</form:form>
 
 </body>
 </html>
